@@ -1,0 +1,11 @@
+{
+  "name": "ross",
+  "version": "1.0.0",
+  "description": "use an image directory as a source for a drawing session",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zapo",
+  "license": "ISC"
+}
