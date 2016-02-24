@@ -6,8 +6,8 @@
   "main": "ross",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "html": "jade --pretty front-end/*.jade -o front-end/",
-    "js": "browserify front-end/app.js > front-end/scripts.js",
+    "html": "jade --pretty front-end/src/*.jade -o front-end/",
+    "js": "browserify front-end/src/app.js > front-end/scripts.js",
     "build": "npm run html & npm run js"
   },
   "author": "zapo",
