@@ -6,9 +6,11 @@ var open = require('open');
 var express = require('express');
 
 
-// gather images
-var images = fs.readdirSync('./').filter(function(f){
+// gather images, prepend a 'files/' path (used to serve via express)
+var images = fs.readdirSync('./').filter(function(f) {
   return f && f[0] != '.'; // Ignore hidden files
+}).map(function(f) {
+  return f = 'files/' + f;
 });
 
 
@@ -17,10 +19,14 @@ var app = express();
 
 // serve the front-end folder
 app.use('/', express.static(path.join(__dirname, 'front-end')));
-// send json of images in the invoked directory
-app.get('/images', function(req, res) {
+
+// json point, returns array of image paths in the invoked directory
+app.get('/json', function(req, res) {
   res.send(images);
 });
+
+// serve up the image files from this route
+app.use('/files', express.static(process.cwd()));
 
 // start the server
 app.listen(3000, function () {

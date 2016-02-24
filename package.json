@@ -5,13 +5,18 @@
   "bin": "index.js",
   "main": "ross",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "html": "jade --pretty front-end/*.jade -o front-end/",
+    "js": "browserify front-end/app.js > front-end/scripts.js",
+    "build": "npm run html & npm run js"
   },
   "author": "zapo",
   "license": "ISC",
   "dependencies": {
+    "browserify": "^13.0.0",
     "express": "^4.13.4",
-    "open": "0.0.5"
+    "open": "0.0.5",
+    "xhr": "^2.2.0"
   },
   "devDependencies": {
     "jade": "^1.11.0"
