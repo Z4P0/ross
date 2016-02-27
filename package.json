@@ -7,13 +7,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "html": "jade --pretty front-end/src/*.jade -o front-end/",
+    "html:watch": "jade --watch --pretty front-end/src/*.jade -o front-end/",
+    "sass": "node-sass --include-path node_modules/foundation-sites/scss front-end/src/styles.scss front-end/styles.css",
+    "sass:watch": "node-sass --watch --recursive --source-map true --include-path node_modules/foundation-sites/scss front-end/src --output front-end",
+    "css": "npm run sass && postcss --use css-mqpacker -o front-end/styles.css front-end/styles.css",
     "js": "browserify front-end/src/app.js > front-end/scripts.js",
-    "build": "npm run html & npm run js"
+    "js:debug": "browserify front-end/src/app.js -o front-end/scripts.js --debug",
+    "js:watch": "watchify front-end/src/app.js -o front-end/scripts.js --debug",
+    "watch": "npm run html:watch & npm run js:watch & npm run sass:watch",
+    "build": "npm run html & npm run js & npm run css"
   },
   "author": "zapo",
   "license": "ISC",
   "dependencies": {
-    "browserify": "^13.0.0",
     "express": "^4.13.4",
     "knuth-shuffle": "^1.0.1",
     "open": "0.0.5",
@@ -21,6 +27,12 @@
     "xhr": "^2.2.0"
   },
   "devDependencies": {
-    "jade": "^1.11.0"
+    "browserify": "^13.0.0",
+    "css-mqpacker": "^4.0.0",
+    "foundation-sites": "^6.2.0",
+    "jade": "^1.11.0",
+    "node-sass": "^3.4.2",
+    "postcss-cli": "^2.5.1",
+    "watchify": "^3.7.0"
   }
 }
