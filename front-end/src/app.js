@@ -1,5 +1,8 @@
+'use strict';
+
 var xhr = require('xhr');
 var Timer = require('timer.js');
+var shuffle = require('knuth-shuffle').knuthShuffle;
 
 window.onload = function() {
 
@@ -7,6 +10,7 @@ window.onload = function() {
   var images = [];
   var req = xhr('/json', function(err, res, body) {
     images = JSON.parse(body);
+    shuffle(images);  // randomize the order
   });
 
 
@@ -37,6 +41,13 @@ window.onload = function() {
     return images[Math.floor(Math.random() * images.length)];
   }
 
+  function newImage() {
+    // remove the last one
+    images.pop();
+    img.src = images[images.length - 1];
+  }
+
+
   /**
    * update <span> text to show the remaining time
    */
@@ -59,12 +70,12 @@ window.onload = function() {
     // onpause : function() { console.log('timer set on pause') },
     onend   : function() {
       intervalIndex++;
-      img.src = randomImage();
+      newImage();
       if (intervalIndex >= intervals.length - 1) {
         // console.log('last warm-up image');
         this.start(intervals[intervalIndex]).on('end', function() {
           feedback('--', timeFeedback);
-          img.src = randomImage();
+          newImage();
         });
       } else {
         this.start(intervals[intervalIndex]);
@@ -76,7 +87,8 @@ window.onload = function() {
 
   // setup start button
   startBtn.onclick = function(e) {
-    img.src = randomImage();
+    img.src = images[images.length - 1];
+    // newImage();
     timer.start(intervals[intervalIndex]);
     this.style.display = 'none';
   }

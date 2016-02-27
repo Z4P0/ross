@@ -1,6 +1,8 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
 var xhr = require('xhr');
 var Timer = require('timer.js');
+var shuffle = require('knuth-shuffle').knuthShuffle;
 
 window.onload = function() {
 
@@ -8,6 +10,8 @@ window.onload = function() {
   var images = [];
   var req = xhr('/json', function(err, res, body) {
     images = JSON.parse(body);
+    // randomize the order
+    shuffle(images);
   });
 
 
@@ -38,6 +42,13 @@ window.onload = function() {
     return images[Math.floor(Math.random() * images.length)];
   }
 
+  function newImage() {
+    // remove the last one
+    images.pop();
+    img.src = images[images.length - 1];
+  }
+
+
   /**
    * update <span> text to show the remaining time
    */
@@ -60,12 +71,12 @@ window.onload = function() {
     // onpause : function() { console.log('timer set on pause') },
     onend   : function() {
       intervalIndex++;
-      img.src = randomImage();
+      newImage();
       if (intervalIndex >= intervals.length - 1) {
         // console.log('last warm-up image');
         this.start(intervals[intervalIndex]).on('end', function() {
           feedback('--', timeFeedback);
-          img.src = randomImage();
+          newImage();
         });
       } else {
         this.start(intervals[intervalIndex]);
@@ -77,7 +88,8 @@ window.onload = function() {
 
   // setup start button
   startBtn.onclick = function(e) {
-    img.src = randomImage();
+    img.src = images[images.length - 1];
+    // newImage();
     timer.start(intervals[intervalIndex]);
     this.style.display = 'none';
   }
@@ -97,7 +109,7 @@ window.onload = function() {
   }
 }
 
-},{"timer.js":7,"xhr":9}],2:[function(require,module,exports){
+},{"knuth-shuffle":5,"timer.js":8,"xhr":10}],2:[function(require,module,exports){
 var isFunction = require('is-function')
 
 module.exports = forEach
@@ -176,6 +188,39 @@ function isFunction (fn) {
 };
 
 },{}],5:[function(require,module,exports){
+(function (global){
+/*jshint -W054 */
+(function (exports) {
+  'use strict';
+
+  // http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  function shuffle(array) {
+    var currentIndex = array.length
+      , temporaryValue
+      , randomIndex
+      ;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+
+  exports.knuthShuffle = shuffle;
+}('undefined' !== typeof exports && exports || 'undefined' !== typeof window && window || global));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],6:[function(require,module,exports){
 module.exports = once
 
 once.proto = once(function () {
@@ -196,7 +241,7 @@ function once (fn) {
   }
 }
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -228,7 +273,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"for-each":2,"trim":8}],7:[function(require,module,exports){
+},{"for-each":2,"trim":9}],8:[function(require,module,exports){
 (function (root, factory) {
   'use strict'
   if (typeof define === 'function' && define.amd) define([], factory)
@@ -365,7 +410,7 @@ module.exports = function (headers) {
   return Timer
 }))
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -381,7 +426,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 var window = require("global/window")
 var once = require("once")
@@ -602,7 +647,7 @@ function _createXHR(options) {
 
 function noop() {}
 
-},{"global/window":3,"is-function":4,"once":5,"parse-headers":6,"xtend":10}],10:[function(require,module,exports){
+},{"global/window":3,"is-function":4,"once":6,"parse-headers":7,"xtend":11}],11:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
