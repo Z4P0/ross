@@ -6,24 +6,22 @@
     <title>Ross</title>
     <meta name="description" content="figure drawing exercise">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <div class="container">
+    <div id="container" class="container">
       <header class="header">
         <div class="row">
           <div class="columns">
-            <h1 class="h1">ross</h1><span id="time"></span>
-            <button id="start-app">Start</button>
-            <button id="pause-app">Pause</button>
+            <h1 class="h1">ross</h1>
+            <button id="control-btn" class="control-btn">Start</button><br><span id="time">--</span>
           </div>
         </div>
       </header>
       <main id="main">
         <div class="row">
-          <div class="columns">
-            <div id="container"><img id="img" src="" alt=""></div>
-          </div>
+          <div class="columns"><img id="img" src="" alt="" class="img"></div>
         </div>
       </main>
       <footer class="footer">

@@ -10,20 +10,19 @@ html(lang="en").no-js
     link(rel="stylesheet", href="styles.css")
 
   body
-    .container
+    #container.container
       header.header
         .row
           .columns
             h1.h1 ross
-            span#time
-            button#start-app Start
-            button#pause-app Pause
+            button#control-btn.control-btn Start
+            br
+            span#time --
 
       main#main
         .row
           .columns
-            #container
-              img#img(src="", alt="")
+            img#img.img(src="", alt="")
 
       footer.footer
         .row

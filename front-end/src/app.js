@@ -15,8 +15,7 @@ window.onload = function () {
 
 
   // DOM refs
-  var startBtn = document.querySelector('#start-app'),
-      pauseBtn = document.querySelector('#pause-app'),
+  var controlBtn = document.querySelector('#control-btn'),
       img = document.querySelector('#img'),
       timeFeedback = document.querySelector('#time');
 
@@ -31,15 +30,11 @@ window.onload = function () {
       intervalIndex = 0;  // track where we are in the intervals[]
 
   // check if we're paused or not
-  var paused = false;
+  var appState = {
+    on: false,
+    paused: false
+  };
 
-  /**
-   * returns a random image from the images array
-   * @return {string} image path
-   */
-  function randomImage() {
-    return images[Math.floor(Math.random() * images.length)];
-  }
 
   function newImage() {
     // remove the last one
@@ -64,7 +59,7 @@ window.onload = function () {
     },
     onstart : function () {
       // fade to black?
-      feedback(intervals[intervalIndex] + ' seconds', timeFeedback);
+      feedback(intervals[intervalIndex], timeFeedback);
     },
     // onstop  : function () { },
     // onpause : function () { console.log('timer set on pause') },
@@ -84,26 +79,36 @@ window.onload = function () {
   });
 
 
-
-  // setup start button
-  startBtn.onclick = function (e) {
+  function startApp () {
     img.src = images[images.length - 1];
-    // newImage();
     timer.start(intervals[intervalIndex]);
-    this.style.display = 'none';
+    feedback('Pause', controlBtn);
+    document.querySelector('#container').classList.toggle('active');
+    appState.on = true;
   }
 
-  // setup pause button
-  // ----------------------------------------
-  pauseBtn.onclick = function (e) {
-    if (paused) {
+  function togglePause () {
+    var feedbackString = '';
+    if (appState.paused) {
       timer.start();
-      paused = false;
-      feedback('Pause', pauseBtn);
+      appState.paused = false;
+      feedbackString = 'Pause';
     } else {
       timer.pause();
-      paused = true;
-      feedback('Resume', pauseBtn);
+      appState.paused = true;
+      feedbackString = 'Resume';
+    }
+    feedback(feedbackString, controlBtn);
+  }
+
+  function controlBtnEventHandler () {
+    if (!appState.on) {
+      startApp();
+    } else {
+      togglePause();
     }
   }
+
+  // setup start button
+  controlBtn.onclick = controlBtnEventHandler;
 }
