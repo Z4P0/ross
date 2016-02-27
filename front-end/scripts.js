@@ -1,17 +1,17 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
+
 var xhr = require('xhr');
 var Timer = require('timer.js');
 var shuffle = require('knuth-shuffle').knuthShuffle;
 
-window.onload = function() {
+window.onload = function () {
 
   // loadup images
   var images = [];
-  var req = xhr('/json', function(err, res, body) {
+  var req = xhr('/json', function (err, res, body) {
     images = JSON.parse(body);
-    // randomize the order
-    shuffle(images);
+    shuffle(images);  // randomize the order
   });
 
 
@@ -60,21 +60,21 @@ window.onload = function() {
   // timer setup
   var timer = new Timer({
     tick    : 1,
-    ontick  : function(sec) {
+    ontick  : function (sec) {
       feedback(Math.floor(sec/1000) + 1, timeFeedback);
     },
-    onstart : function() {
+    onstart : function () {
       // fade to black?
       feedback(intervals[intervalIndex] + ' seconds', timeFeedback);
     },
-    // onstop  : function() { },
-    // onpause : function() { console.log('timer set on pause') },
-    onend   : function() {
+    // onstop  : function () { },
+    // onpause : function () { console.log('timer set on pause') },
+    onend   : function () {
       intervalIndex++;
       newImage();
       if (intervalIndex >= intervals.length - 1) {
         // console.log('last warm-up image');
-        this.start(intervals[intervalIndex]).on('end', function() {
+        this.start(intervals[intervalIndex]).on('end', function () {
           feedback('--', timeFeedback);
           newImage();
         });
@@ -87,7 +87,7 @@ window.onload = function() {
 
 
   // setup start button
-  startBtn.onclick = function(e) {
+  startBtn.onclick = function (e) {
     img.src = images[images.length - 1];
     // newImage();
     timer.start(intervals[intervalIndex]);
@@ -96,7 +96,7 @@ window.onload = function() {
 
   // setup pause button
   // ----------------------------------------
-  pauseBtn.onclick = function(e) {
+  pauseBtn.onclick = function (e) {
     if (paused) {
       timer.start();
       paused = false;
