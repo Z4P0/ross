@@ -942,7 +942,41 @@ kbd {
   backface-visibility: hidden; }
 
 .header {
-  top: 0; }
+  top: 50%;
+  right: 0;
+  z-index: 1;
+  transform: translateY(-50%);
+  text-align: center; }
+  .active .header {
+    top: 0;
+    right: auto;
+    transform: none;
+    text-align: left; }
+
+.start-btn {
+  border: 1px solid;
+  padding: 0.3125rem 0.9375rem;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease; }
+  .start-btn:after {
+    content: "\0a0";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    background-color: #333333;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transition: transform 0.2s ease-out;
+    transform-origin: 50% 50%;
+    transform: scaleX(0);
+    backface-visibility: hidden; }
+  .start-btn:hover {
+    color: #FFFFFF; }
+    .start-btn:hover:after {
+      transform: scaleX(1); }
 
 .footer {
   bottom: 0;
@@ -967,10 +1001,21 @@ html, body, .container {
   height: 100%; }
 
 .container {
-  transition: background-color 1s ease; }
+  transition: background-color 1s ease;
+  overflow: hidden; }
   .container.active {
     background-color: #222222;
     color: #FFFFFF; }
+
+.main {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%); }
+
+.feedback {
+  display: none; }
+  .active .feedback {
+    display: block; }
   @media screen and (min-width: 40em) {
   .row .row {
     margin-left: -0.9375rem;

@@ -60,7 +60,48 @@
 
 .header {
   @extend %posfixed;
-  top: 0;
+  top: 50%;
+  right: 0;
+  z-index: 1;
+  transform: translateY(-50%);
+  text-align: center;
+  .active & {
+    top: 0;
+    right: auto;
+    transform: none;
+    text-align: left;
+    // display: none;
+  }
+
+}
+
+.start-btn {
+  border: 1px solid;
+  padding: rem-calc(5 15);
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease;
+  &:after {
+    content: "\0a0";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    background-color: $oil;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transition: transform 0.2s ease-out;
+    transform-origin: 50% 50%;
+    transform: scaleX(0);
+    backface-visibility: hidden;
+  }
+  &:hover {
+    color: $white;
+    &:after {
+      transform: scaleX(1);
+    }
+  }
 }
 
 .footer {
@@ -93,8 +134,22 @@ html, body, .container {
 
 .container {
   transition: background-color 1s ease;
+  overflow: hidden;
   &.active {
     background-color: $jet;
     color: $white;
+  }
+}
+
+.main {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.feedback {
+  display: none;
+  .active & {
+    display: block;
   }
 }

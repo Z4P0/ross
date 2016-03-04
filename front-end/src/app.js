@@ -4,7 +4,7 @@ var xhr = require('xhr');
 var Timer = require('timer.js');
 var shuffle = require('knuth-shuffle').knuthShuffle;
 
-window.onload = function () {
+function init () {
 
   // loadup images
   var images = [];
@@ -16,9 +16,12 @@ window.onload = function () {
 
   // DOM refs
   var controlBtn = document.querySelector('#control-btn'),
+      startBtn = document.querySelector('#start-btn'),
       img = document.querySelector('#img'),
-      timeFeedback = document.querySelector('#time');
+      timeFeedback = document.querySelector('#time'),
+      container = document.querySelector('#container');
 
+      img.style.maxHeight = container.clientHeight + 'px';
 
   // warm-up intervals
   var intervals = [
@@ -83,8 +86,9 @@ window.onload = function () {
     img.src = images[images.length - 1];
     timer.start(intervals[intervalIndex]);
     feedback('Pause', controlBtn);
-    document.querySelector('#container').classList.toggle('active');
+    container.classList.toggle('active');
     appState.on = true;
+    this.style.display = 'none';
   }
 
   function togglePause () {
@@ -109,6 +113,11 @@ window.onload = function () {
     }
   }
 
+
   // setup start button
+  startBtn.onclick = startApp;
   controlBtn.onclick = controlBtnEventHandler;
+
 }
+
+window.onload = init;

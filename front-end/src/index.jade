@@ -15,11 +15,14 @@ html(lang="en").no-js
         .row
           .columns
             h1.h1 ross
-            button#control-btn.control-btn Start
-            br
-            span#time --
+            button#start-btn.control-btn.start-btn Start
+            .feedback
+              span#time --
+              br
+              button#control-btn.control-btn Pause
 
-      main#main
+
+      main#main.main
         .row
           .columns
             img#img.img(src="", alt="")
